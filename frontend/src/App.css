@@ -1,17 +1,29 @@
+/* Light palette by default. Dark applies when the system prefers it (unless the
+   user picked "Hell" in the settings) or when the user picked "Dunkel". */
 :root {
   --bg: #fafaf9;
   --fg: #0a0a0a;
   --muted: #737373;
+  --logo-filter: none;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #0a0a0a;
     --fg: #fafaf9;
     --muted: #a3a3a3;
+    --logo-filter: invert(1);
     color-scheme: dark;
   }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0a0a0a;
+  --fg: #fafaf9;
+  --muted: #a3a3a3;
+  --logo-filter: invert(1);
+  color-scheme: dark;
 }
 
 html,
@@ -28,7 +40,7 @@ body {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  padding-inline: 16px;
+  padding-inline: 32px;
 }
 
 .header {
@@ -36,41 +48,202 @@ body {
   align-items: center;
   gap: 10px;
   padding-block: 20px;
-  max-width: 1100px;
+  max-width: 1400px;
   width: 100%;
   margin-inline: auto;
 }
 
 .header-logo {
-  width: 28px;
-  height: 28px;
-}
-
-@media (prefers-color-scheme: dark) {
-  .header-logo {
-    filter: invert(1);
-  }
+  width: 32px;
+  height: 32px;
+  filter: var(--logo-filter);
 }
 
 .header-name {
   font-weight: 600;
-  font-size: 15px;
+  font-size: 17px;
   letter-spacing: -0.01em;
+}
+
+.header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.login-button {
+  padding: 4px 0;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  /* Grow towards the left, so the scaled text doesn't overlap the arrow. */
+  transform-origin: right center;
+  transition: color 0.2s, transform 0.2s ease;
+}
+
+.login-button:hover,
+.login-button:focus-visible {
+  color: var(--fg);
+  transform: scale(1.08);
+}
+
+.login-button:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 4px;
+}
+
+.settings {
+  position: relative;
+}
+
+.settings-toggle {
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s ease;
+}
+
+.settings-toggle svg {
+  transition: transform 0.25s ease;
+}
+
+.settings-toggle:hover,
+.settings-toggle:focus-visible,
+.settings-toggle.is-open {
+  color: var(--fg);
+}
+
+.settings-toggle:hover,
+.settings-toggle:focus-visible {
+  transform: scale(1.08);
+}
+
+/* The arrow flips to point up while the menu is open. */
+.settings-toggle.is-open svg {
+  transform: rotate(180deg);
+}
+
+.settings-toggle:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Borderless, right-aligned list below the arrow. The entries end at the
+   visible right edge of the arrow: 4px button padding + ~4px empty space
+   inside the icon. */
+.settings-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 8px;
+  z-index: 10;
+  padding: 4px 0;
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+  background: var(--bg);
+  animation: settings-in 0.18s ease;
+}
+
+@keyframes settings-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.settings-label {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.settings-option {
+  padding: 3px 0;
+  font: inherit;
+  font-size: 15px;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transform-origin: right center;
+  transition: color 0.2s, transform 0.2s ease;
+}
+
+.settings-option:hover,
+.settings-option:focus-visible,
+.settings-option[aria-checked="true"] {
+  color: var(--fg);
+}
+
+.settings-option:hover {
+  transform: scale(1.06);
+}
+
+.settings-option:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 .hero {
   flex: 1;
   display: grid;
-  place-items: center;
-  padding-block: 24px 64px;
+  /* Horizontally centered, pinned to the upper part of the page. */
+  place-items: start center;
+  padding-block: 8px 24px;
 }
 
-.ascii-anvil {
+.hero-heading {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.page-title {
   margin: 0;
-  /* 100 columns at ~0.6em per character: scale with the viewport, cap at 16px. */
-  font-size: clamp(5px, calc((100vw - 32px) / 62), 16px);
-  line-height: 1;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-  color: var(--fg);
-  user-select: none;
+  font-size: clamp(22px, 4.5vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+/* Date and time as a subtitle below the page title, separated only by space. */
+.clock {
+  display: flex;
+  gap: 16px;
+  font-size: 15px;
+  color: var(--muted);
+  /* Equal-width digits, so the text doesn't shift when e.g. 14:11 becomes 14:12. */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Same edges as the header. On narrow screens the names wrap below the copyright. */
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 24px;
+  padding-block: 24px;
+  max-width: 1400px;
+  width: 100%;
+  margin-inline: auto;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .settings-panel {
+    animation: none;
+  }
 }
