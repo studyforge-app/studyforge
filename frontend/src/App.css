@@ -228,6 +228,104 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* Login / registration: same frame as the dashboard, the form below the title. */
+.auth {
+  display: grid;
+  justify-items: center;
+  width: min(280px, 100%);
+}
+
+.auth-form {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  margin-top: 32px;
+}
+
+/* No box, no line: only the grey placeholder marks the field. */
+.auth-input {
+  width: 100%;
+  padding: 6px 0;
+  font: inherit;
+  font-size: 16px;
+  color: var(--fg);
+  background: none;
+  border: none;
+  border-radius: 0;
+  outline: none;
+}
+
+.auth-input::placeholder {
+  color: var(--muted);
+  transition: color 0.2s, opacity 0.2s;
+}
+
+/* Hover darkens the placeholder, like the other grey text on the page. */
+.auth-input:hover::placeholder {
+  color: var(--fg);
+}
+
+.auth-input:focus::placeholder {
+  color: var(--muted);
+  opacity: 0.5;
+}
+
+.auth-message {
+  margin: 0;
+  font-size: 14px;
+  color: var(--fg);
+}
+
+.auth-submit {
+  justify-self: end;
+  margin-top: 6px;
+}
+
+.auth-submit:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+}
+
+/* The arrow nudges forward on hover. */
+.auth-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.auth-submit:hover:not(:disabled) .auth-arrow {
+  transform: translateX(3px);
+}
+
+.auth-switch {
+  margin: 28px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Same hover as the header buttons: grows slightly. */
+.auth-switch-button {
+  display: inline-block;
+  padding: 0;
+  font: inherit;
+  color: var(--fg);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transform-origin: left center;
+  transition: transform 0.2s ease;
+}
+
+.auth-switch-button:hover {
+  transform: scale(1.08);
+}
+
+.auth-switch-button:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* Same edges as the header. On narrow screens the names wrap below the copyright. */
 .footer {
   display: flex;
