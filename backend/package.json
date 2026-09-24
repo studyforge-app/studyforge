@@ -4,12 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/app.ts",
+    "dev": "tsx watch --env-file-if-exists=../.env src/app.ts",
     "build": "tsc",
-    "start": "node dist/app.js"
+    "start": "node --env-file-if-exists=../.env dist/app.js"
   },
   "dependencies": {
     "@studyforge/shared-types": "*",
+    "@supabase/supabase-js": "^2.117.1",
     "express": "^5.2.1"
   },
   "devDependencies": {
