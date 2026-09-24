@@ -1,0 +1,76 @@
+:root {
+  --bg: #fafaf9;
+  --fg: #0a0a0a;
+  --muted: #737373;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a0a0a;
+    --fg: #fafaf9;
+    --muted: #a3a3a3;
+    color-scheme: dark;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding-inline: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-block: 20px;
+  max-width: 1100px;
+  width: 100%;
+  margin-inline: auto;
+}
+
+.header-logo {
+  width: 28px;
+  height: 28px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .header-logo {
+    filter: invert(1);
+  }
+}
+
+.header-name {
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+.hero {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding-block: 24px 64px;
+}
+
+.ascii-anvil {
+  margin: 0;
+  /* 100 columns at ~0.6em per character: scale with the viewport, cap at 16px. */
+  font-size: clamp(5px, calc((100vw - 32px) / 62), 16px);
+  line-height: 1;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  color: var(--fg);
+  user-select: none;
+}
