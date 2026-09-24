@@ -39,13 +39,515 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      card_review: {
+        Row: {
+          flashcard_id: string
+          id: string
+          knew: boolean
+          reviewed_at: string
+          session_id: string
+        }
+        Insert: {
+          flashcard_id: string
+          id?: string
+          knew: boolean
+          reviewed_at?: string
+          session_id: string
+        }
+        Update: {
+          flashcard_id?: string
+          id?: string
+          knew?: boolean
+          reviewed_at?: string
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_card_review_flashcard"
+            columns: ["flashcard_id"]
+            isOneToOne: false
+            referencedRelation: "flashcard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_card_review_session"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "study_session"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      card_state: {
+        Row: {
+          created_at: string
+          due_at: string
+          flashcard_id: string
+          last_result: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          due_at?: string
+          flashcard_id: string
+          last_result?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          due_at?: string
+          flashcard_id?: string
+          last_result?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_card_state_flashcard"
+            columns: ["flashcard_id"]
+            isOneToOne: false
+            referencedRelation: "flashcard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_card_state_user"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chunk: {
+        Row: {
+          attempts: number
+          created_at: string
+          document_id: string
+          id: string
+          position: number
+          source_ref: string | null
+          status: string
+          text: string
+          updated_at: string
+        }
+        Insert: {
+          attempts?: number
+          created_at?: string
+          document_id: string
+          id?: string
+          position: number
+          source_ref?: string | null
+          status?: string
+          text: string
+          updated_at?: string
+        }
+        Update: {
+          attempts?: number
+          created_at?: string
+          document_id?: string
+          id?: string
+          position?: number
+          source_ref?: string | null
+          status?: string
+          text?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_chunk_document"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "document"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document: {
+        Row: {
+          attempts: number
+          created_at: string
+          error_message: string | null
+          file_hash: string
+          file_path: string
+          file_type: string
+          id: string
+          locked_at: string | null
+          page_count: number | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          attempts?: number
+          created_at?: string
+          error_message?: string | null
+          file_hash: string
+          file_path: string
+          file_type: string
+          id?: string
+          locked_at?: string | null
+          page_count?: number | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          attempts?: number
+          created_at?: string
+          error_message?: string | null
+          file_hash?: string
+          file_path?: string
+          file_type?: string
+          id?: string
+          locked_at?: string | null
+          page_count?: number | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      flashcard: {
+        Row: {
+          back: string
+          chunk_id: string
+          created_at: string
+          deleted_at: string | null
+          edited: boolean
+          front: string
+          id: string
+          source_ref: string | null
+          updated_at: string
+        }
+        Insert: {
+          back: string
+          chunk_id: string
+          created_at?: string
+          deleted_at?: string | null
+          edited?: boolean
+          front: string
+          id?: string
+          source_ref?: string | null
+          updated_at?: string
+        }
+        Update: {
+          back?: string
+          chunk_id?: string
+          created_at?: string
+          deleted_at?: string | null
+          edited?: boolean
+          front?: string
+          id?: string
+          source_ref?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_flashcard_chunk"
+            columns: ["chunk_id"]
+            isOneToOne: false
+            referencedRelation: "chunk"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      material: {
+        Row: {
+          created_at: string
+          document_id: string
+          id: string
+          module_id: string
+          title: string | null
+        }
+        Insert: {
+          created_at?: string
+          document_id: string
+          id?: string
+          module_id: string
+          title?: string | null
+        }
+        Update: {
+          created_at?: string
+          document_id?: string
+          id?: string
+          module_id?: string
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_material_document"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "document"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_material_module"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "module"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      module: {
+        Row: {
+          course_id: string | null
+          created_at: string
+          exam_date: string | null
+          id: string
+          name: string
+          owner_id: string
+          updated_at: string
+        }
+        Insert: {
+          course_id?: string | null
+          created_at?: string
+          exam_date?: string | null
+          id?: string
+          name: string
+          owner_id: string
+          updated_at?: string
+        }
+        Update: {
+          course_id?: string | null
+          created_at?: string
+          exam_date?: string | null
+          id?: string
+          name?: string
+          owner_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_module_owner"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profile: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          current_streak: number
+          display_name: string | null
+          id: string
+          last_study_date: string | null
+          longest_streak: number
+          timezone: string
+          updated_at: string
+          xp_total: number
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          current_streak?: number
+          display_name?: string | null
+          id: string
+          last_study_date?: string | null
+          longest_streak?: number
+          timezone?: string
+          updated_at?: string
+          xp_total?: number
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          current_streak?: number
+          display_name?: string | null
+          id?: string
+          last_study_date?: string | null
+          longest_streak?: number
+          timezone?: string
+          updated_at?: string
+          xp_total?: number
+        }
+        Relationships: []
+      }
+      quiz_answer: {
+        Row: {
+          answered_at: string
+          chosen_index: number
+          id: string
+          is_correct: boolean
+          question_id: string
+          session_id: string
+        }
+        Insert: {
+          answered_at?: string
+          chosen_index: number
+          id?: string
+          is_correct: boolean
+          question_id: string
+          session_id: string
+        }
+        Update: {
+          answered_at?: string
+          chosen_index?: number
+          id?: string
+          is_correct?: boolean
+          question_id?: string
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_quiz_answer_question"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "quiz_question"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_quiz_answer_session"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "study_session"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quiz_question: {
+        Row: {
+          chunk_id: string
+          correct_index: number
+          created_at: string
+          deleted_at: string | null
+          explanation: string | null
+          id: string
+          options: Json
+          question: string
+          source_ref: string | null
+          updated_at: string
+        }
+        Insert: {
+          chunk_id: string
+          correct_index: number
+          created_at?: string
+          deleted_at?: string | null
+          explanation?: string | null
+          id?: string
+          options: Json
+          question: string
+          source_ref?: string | null
+          updated_at?: string
+        }
+        Update: {
+          chunk_id?: string
+          correct_index?: number
+          created_at?: string
+          deleted_at?: string | null
+          explanation?: string | null
+          id?: string
+          options?: Json
+          question?: string
+          source_ref?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_quiz_question_chunk"
+            columns: ["chunk_id"]
+            isOneToOne: false
+            referencedRelation: "chunk"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      study_session: {
+        Row: {
+          completed: boolean
+          finished_at: string | null
+          id: string
+          module_id: string
+          started_at: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          finished_at?: string | null
+          id?: string
+          module_id: string
+          started_at?: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          finished_at?: string | null
+          id?: string
+          module_id?: string
+          started_at?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_study_session_module"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "module"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_study_session_user"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      xp_event: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          reason: string
+          session_id: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          reason: string
+          session_id?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          reason?: string
+          session_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_xp_event_session"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "study_session"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_xp_event_user"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      user_can_access_document: { Args: { doc_id: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
