@@ -1,6 +1,7 @@
 import Clock from "./components/Clock";
 import SettingsMenu from "./components/SettingsMenu";
 import { useSettings } from "./useSettings";
+import { supabase } from "./supabase";
 import logo from "./assets/icons/studyforge-mark-black.svg";
 import "./App.css";
 
@@ -13,9 +14,9 @@ export default function App() {
         <img className="header-logo" src={logo} alt="" />
         <span className="header-name">StudyForge</span>
         <div className="header-actions">
-          {/* No action yet, login comes with Supabase auth. */}
-          <button type="button" className="login-button">
-            Anmelden
+          {/* App is only rendered behind the Login gate, so the user is always signed in here. */}
+          <button type="button" className="login-button" onClick={() => supabase.auth.signOut()}>
+            Abmelden
           </button>
           <SettingsMenu theme={theme} onThemeChange={setTheme} />
         </div>
